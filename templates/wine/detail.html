@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<head>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+        .jumbotron {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+            margin-bottom: 0;
+            background-color: #fff;
+        }
+        @media (min-width: 768px) {
+            .jumbotron {
+                padding-top: 6rem;
+                padding-bottom: 6rem;
+            }
+        }
+
+        .jumbotron p:last-child {
+            margin-bottom: 0;
+        }
+
+        .jumbotron-heading {
+            font-weight: 300;
+        }
+
+        .jumbotron .container {
+            max-width: 40rem;
+        }
+
+        footer {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        footer p {
+            margin-bottom: .25rem;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{wine.name}}</title>
+</head>
+<body>
+<header>
+    <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                    <h4 class="text-white">Wines</h4>
+                    <p class="text-muted">Here be a list of wines innit.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+   <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container"><div class="row">
+      <a href="{% url 'index' %}" class="navbar-brand">
+        <strong>Stocked Wine</strong>
+      </a> |
+        <a href="{% url 'recent' %}" class="navbar-brand">
+                <strong>Recently Consumed Wine</strong>
+            </a>
+        </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>
+<main role="main">
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="bg-dark shadow-sm text-light card-title" style="padding:5px;text-align:center">{{ wine.name }}<br /></div>
+                        <div class="card-body" style="padding-left:40px;">
+                            <div class="row">
+                                <div class="card-text col-4 col-sm-4">
+                                    <p><b>Winemaker: </b>{{ wine.winemaker }}</p>
+                                    <p><b>Nation: </b>{{ wine.nation }}</p>
+                                    <p><b>Variety: </b>{{ wine.variety }}</p>
+                                    <p><b>ABV: </b>{{ wine.abv }}%</p>
+                                    <p><b>Price: </b>£{{ wine.price }}</p>
+                                    <p><b>Quantity: </b>{{ wine.quantity }}</p>
+                                    <p><b>Link: </b><a href="{{ wine.url }}">{{ wine.name }}</a></p>
+                                    <div class="d-flex"><div class="mr-auto"><b>Comments: </b></div><div class=""><b>Score:</b> {{ wine.score }}</div></div>
+                                    <p><label for="comments"></label><textarea class="form-control" id="comments" readonly="readonly" rows="3">{{ wine.comments }}</textarea></p>
+                                </div>
+                                <div class="col-1 col-sm-7 d-flex justify-content-end">
+                                    <div class="card-text"><img img height="272" width="72" src="{{ wine.image_url }}" /></div>
+                                </div>
+
+                            </div>
+                            <div class="row justify-content-end">
+                                <div class="col-1 col-sm-7"><button type="button" class="btn btn-danger" title="I drank it!" data-toggle="collapse" data-target="#collapseDrank" aria-expanded="false" aria-controls="collapseDrank">I drank it!</button></div>
+                            </div>
+                            <div class="collapse" id="collapseDrank">
+                                <div class="card card-body" style="margin-top:10px;">
+{% comment %}                                    <form action="{% url 'drank' wine.id %}" method="post">
+                                        {% csrf_token %}
+                                        <b>Comments: </b><textarea class="form-control" name="comments" id="comments">{{ wine.comments }}</textarea>
+                                        <b>Tags (comma separated): </b><input type="text" class="form-control" name="tags" id="tags" value="{% for tag in wine.tags.all %}{{ tag }},{% endfor %}">
+                                        <b>Score: </b><input type="text" class="form-control" name="score" id="score" value="{{ wine.score }}">
+                                    <input type="submit" value="Submit" class="btn btn-primary" style="margin-top:10px;">
+                                    </form>{% endcomment %}
+                                    <form action="{% url 'drank' wine.id %}" method="post">
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+                                        <input type="submit" value="Submit" class="btn btn-primary" style="margin-top:10px;">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</html>
